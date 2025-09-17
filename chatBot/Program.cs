@@ -14,5 +14,3 @@ var chatClient = host.Services.GetRequiredService<IChatClient>();
 var chatCompletion = await chatClient.CompleteAsync("What is .NET");
 
 Console.WriteLine(chatCompletion.Message.Text);
-
-await host.RunAsync();
