@@ -1,16 +1,12 @@
-﻿using Microsoft.Extensions.AI;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.AI;
 
-var builder = Host.CreateDefaultBuilder(args);
+var builder = Host.CreateApplicationBuilder();
 
-builder.Services.AddChatClient(chatClientBuilder =>
-    chatClientBuilder.UseOpenAI(apiKey: "your-api-key-here"));
+builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "llama3"));
 
-var host = builder.Build();
+var app = builder.Build();
 
-var chatClient = host.Services.GetRequiredService<IChatClient>();
+var chatClient = app.Services.GetRequiredService<IChatClient>();
 
-var chatCompletion = await chatClient.CompleteAsync("What is .NET");
-
-Console.WriteLine(chatCompletion.Message.Text);
